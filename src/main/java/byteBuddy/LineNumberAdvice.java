@@ -6,10 +6,6 @@ import java.lang.reflect.Method;
 // Advice: https://javadoc.io/static/net.bytebuddy/byte-buddy/1.8.16/net/bytebuddy/asm/Advice.html
 public class LineNumberAdvice {
 
-    /*public String foo(String value) {
-        return value;
-    }*/
-
     @Advice.OnMethodEnter
     private static void enter(@Advice.Origin Method origin) {
         // An element in a stack trace, as returned by Throwable.getStackTrace(). Each element represents a single stack frame. All stack frames except for the one at the top of the stack represent a method invocation. The frame at the top of the stack represents the execution point at which the stack trace was generated.

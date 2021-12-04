@@ -19,15 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
-
-// https://javadoc.io/doc/net.bytebuddy/byte-buddy/latest/net/bytebuddy/asm/Advice.Origin.html
-
-// TODO for prezi - on MethodEnter/Exit with Advice & ASMVisitorWrapper with visitCode
-// Frame inside Sample class
-
-// https://github.com/raphw/byte-buddy/blob/c7f8aabc77438bca00f93e2e4ff645ce3d35f78c/byte-buddy-dep/src/test/java/net/bytebuddy/asm/AdviceTest.java#L2076
 public class Main {
-    
+
     static final String ENTER = "enter";
     static final String EXIT = "exit";
 
@@ -100,19 +93,13 @@ public class Main {
         // method with argument, as BAR
         type.getDeclaredMethod("checkFoo", String.class).invoke(type.getDeclaredConstructor().newInstance(), "foo");
 
-        if(isASMVisitorWrapperType) {
-            return;
+        if(!isASMVisitorWrapperType) {
+            Field enterField = type.getDeclaredField(ENTER);
+            System.out.println("enterField: " + enterField.get(type.getDeclaredConstructor().newInstance()));
+
+            Field exitField = type.getDeclaredField(EXIT);
+            System.out.println("exitField: " + exitField.get(type.getDeclaredConstructor().newInstance()));
         }
-
-        Field enterField = type.getDeclaredField(ENTER);
-        System.out.println("enterField: " + enterField.get(type.getDeclaredConstructor().newInstance()));
-
-        Field exitField = type.getDeclaredField(EXIT);
-        System.out.println("exitField: " + exitField.get(type.getDeclaredConstructor().newInstance()));
-
-        // method without argument
-        //String modifiedMethodOverloaded = (String) type.getDeclaredMethod(BAR).invoke(type.getDeclaredConstructor().newInstance());
-        //System.out.println("modifiedMethodOverloaded: " + modifiedMethodOverloaded);
     }
 }
 
